@@ -1,5 +1,6 @@
 import torch 
 from torch.distributions import Normal, Uniform, Bernoulli
+import pandas as pd 
 from torch.utils.tensorboard import SummaryWriter
 logger=SummaryWriter(log_dir='./runs')
 class KArmBandit():
@@ -35,17 +36,27 @@ class KArmBandit():
 
 if(__name__=='__main__'):
     k=10
+    epsilon=0.3
+    actions=range(k)
     avgs=range(k)
     scales=torch.rand(k)
-    
+    q_table=pd.DataFrame()
     distributions=[]
     for index,avg in enumerate(avgs):
         distributions.append(Normal(loc=avg,scale=scales[index]))
     k_handler=KArmBandit(len(distributions),distributions)
     for i in range(1000):
         #random action
-        idx=torch.randint(0,k-1,(1,)).item()
+        
         #Epsilon_greedy
+        best_action=q_table.iloc[0,:].argmax()
+        actions=actions[actions!=best_action]
+        idx=torch.randint(0,len(actions)-1,(1,)).item()
+        random_action=actions[idx]
+        if(Bernoulli(probs=epilon))
+
+        reward=k_handler.sample(idx)
+        q_table[str(idx)]=+reward
 
         logger.add_scalar('Reward',,i+1)
     
